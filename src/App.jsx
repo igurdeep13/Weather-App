@@ -1,12 +1,62 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import useWeatherData from "./hooks/useWeatherData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [inputValue, setInputValue] = useState("Toronto");
 
-  return <>Hello world</>;
+  const api = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${api}`;
+
+  const { weatherData, getWeatherData } = useWeatherData(url);
+
+  console.log(weatherData);
+
+  return (
+    <div className="h-screen flex items-center justify-center bg-[url('/images/background.jpg')] bg-cover bg-center">
+      <div className="w-[500px] h-96 bg-black bg-opacity-50  rounded-xl">
+        <div className="py-8 px-8 flex flex-col gap-3.5">
+          <div className="flex justify-center  gap-0.5">
+            <input
+              className="bg-black text-white w-full px-4 py-2 rounded-l-2xl outline-none cursor-pointer"
+              type="text"
+              placeholder="Enter the city"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+
+            <button
+              className="text-white bg-black pr-5 rounded-r-2xl pl-2 cursor-pointer hover:bg-opacity-70 
+          
+          "
+              onClick={getWeatherData}
+            >
+              <FontAwesomeIcon icon={faSearch} size="1x" />
+            </button>
+          </div>
+
+          <h1 className="text-white text-3xl font-medium">
+            Weather in&nbsp;
+            {weatherData ? (
+              weatherData.name
+            ) : (
+              <h1>Information not available</h1>
+            )}
+          </h1>
+          <h1 className="text-white text-5xl font-medium">
+            {weatherData ? (
+              (weatherData.main.temp - 273.15).toFixed(2)
+            ) : (
+              <h1>Data not available</h1>
+            )}
+            &nbsp;&deg;C
+          </h1>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;

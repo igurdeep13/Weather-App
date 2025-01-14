@@ -7,16 +7,16 @@ function useWeatherData(url) {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setWeatherData(weatherData);
+      setWeatherData(data);
     } catch (error) {
       console.log("Error while fetching data", error);
     }
-
-    useEffect(() => {
-      getWeatherData();
-    }, [url]);
   };
-  return [weatherData, getWeatherData];
+
+  useEffect(() => {
+    getWeatherData();
+  }, [url]);
+  return { weatherData, getWeatherData };
 }
 
 export default useWeatherData;
