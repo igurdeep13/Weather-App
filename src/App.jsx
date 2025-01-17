@@ -6,11 +6,22 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 function App() {
   const [inputValue, setInputValue] = useState("Toronto");
 
+  const [searchQuery, setSearchQuery] = useState(inputValue);
+
   const api = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${api}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${api}`;
 
-  const { weatherData, getWeatherData } = useWeatherData(url);
+  const { weatherData, getWeatherData, error, loading } = useWeatherData(url);
+
+  const getSearchValidation = () => {
+    if (inputValue.trim() === "") {
+      alert("Enter a city name");
+      return;
+    }
+    setSearchQuery(inputValue);
+    getWeatherData();
+  };
 
   console.log(weatherData);
 
@@ -31,28 +42,30 @@ function App() {
               className="text-white bg-black pr-5 rounded-r-2xl pl-2 cursor-pointer hover:bg-opacity-70 
           
           "
-              onClick={getWeatherData}
+              onClick={getSearchValidation}
             >
               <FontAwesomeIcon icon={faSearch} size="1x" />
             </button>
           </div>
 
-          <h1 className="text-white text-3xl font-medium">
-            Weather in&nbsp;
-            {weatherData ? (
-              weatherData.name
-            ) : (
-              <h1>Information not available</h1>
-            )}
-          </h1>
-          <h1 className="text-white text-5xl font-medium">
-            {weatherData ? (
-              (weatherData.main.temp - 273.15).toFixed(2)
-            ) : (
-              <h1>Data not available</h1>
-            )}
-            &nbsp;&deg;C
-          </h1>
+          {error ? (
+            <h1 className="text-red-500 text-3xl font-medium">{error}</h1>
+          ) : loading ? (
+            <h1 className="text-white text-3xl font-medium">Loading...</h1>
+          ) : weatherData ? (
+            <>
+              <h1 className="text-white text-3xl font-medium">
+                Weather in {weatherData.name}
+              </h1>
+              <h1 className="text-white text-5xl font-medium">
+                {(weatherData.main.temp - 273.15).toFixed(2)} &deg;C
+              </h1>
+            </>
+          ) : (
+            <h1 className="text-white text-3xl font-medium">
+              Information not available
+            </h1>
+          )}
         </div>
       </div>
     </div>
