@@ -49,7 +49,7 @@ function App() {
           </div>
 
           {error ? (
-            <h1 className="text-red-500 text-3xl font-medium">{error}</h1>
+            <h1 className="text-red-700 text-3xl font-medium">{error}</h1>
           ) : loading ? (
             <h1 className="text-white text-3xl font-medium">Loading...</h1>
           ) : weatherData ? (
@@ -63,7 +63,7 @@ function App() {
             </>
           ) : (
             <h1 className="text-white text-3xl font-medium">
-              Information not available
+              Enter the valid city name
             </h1>
           )}
         </div>
