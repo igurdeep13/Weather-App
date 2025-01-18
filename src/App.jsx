@@ -10,10 +10,14 @@ function App() {
 
   const api = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${api}`;
+  const urlForWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${api}`;
 
-  const { weatherData, getWeatherData, error, loading } = useWeatherData(url);
+  const urlForIcon = "https://openweathermap.org/img/wn/{icon}@2x.png";
 
+  const { weatherData, getWeatherData, error, loading } =
+    useWeatherData(urlForWeather);
+
+  //This method is used to ensure the input field is not empty.
   const getSearchValidation = () => {
     if (inputValue.trim() === "") {
       alert("Enter a city name");
@@ -58,7 +62,7 @@ function App() {
                 Weather in {weatherData.name}
               </h1>
               <h1 className="text-white text-5xl font-medium">
-                {(weatherData.main.temp - 273.15).toFixed(2)} &deg;C
+                {(weatherData.main.temp - 273.15).toFixed(1)} &deg;C
               </h1>
             </>
           ) : (
@@ -66,6 +70,32 @@ function App() {
               Enter the valid city name
             </h1>
           )}
+          <div className="flex">
+            <div>
+              <img
+                className="w-14 h-14"
+                src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                alt=""
+              />
+            </div>
+            <div className=" mt-5 text-white">
+              {weatherData.weather[0].description}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 grid-rows-2  ">
+            <div className="text-white">
+              Humidity: {weatherData.main.humidity}
+            </div>
+            <div className="text-white">
+              Feels like: {(weatherData.main.temp - 273.15).toFixed(1)} &deg;C
+            </div>
+            <div className="text-white">
+              Wind speed: {weatherData.wind.speed} m/s
+            </div>
+            <div className="text-white">
+              Visibility: {weatherData.visibility} m
+            </div>
+          </div>
         </div>
       </div>
     </div>

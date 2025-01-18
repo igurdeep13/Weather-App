@@ -11,11 +11,13 @@ function useWeatherData(url) {
     setLoading(true);
 
     //Clear out all previous errors
+
     setError(null);
 
     try {
       const response = await fetch(url);
 
+      //throw =>  throw keyword stop the execution of the code and pass the control to the nearst catch block
       if (!response.ok) {
         throw new Error("City not found...");
       }
