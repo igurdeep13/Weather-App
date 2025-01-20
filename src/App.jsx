@@ -64,38 +64,39 @@ function App() {
               <h1 className="text-white text-5xl font-medium">
                 {(weatherData.main.temp - 273.15).toFixed(1)} &deg;C
               </h1>
+              <div className="flex">
+                <div>
+                  <img
+                    className="w-14 h-14"
+                    src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                    alt=""
+                  />
+                </div>
+                <div className=" mt-5 text-white">
+                  {weatherData.weather[0].description}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 grid-rows-2  ">
+                <div className="text-white">
+                  Humidity: {weatherData.main.humidity}
+                </div>
+                <div className="text-white">
+                  Feels like: {(weatherData.main.temp - 273.15).toFixed(1)}{" "}
+                  &deg;C
+                </div>
+                <div className="text-white">
+                  Wind speed: {weatherData.wind.speed} m/s
+                </div>
+                <div className="text-white">
+                  Visibility: {weatherData.visibility} m
+                </div>
+              </div>
             </>
           ) : (
             <h1 className="text-white text-3xl font-medium">
               Enter the valid city name
             </h1>
           )}
-          <div className="flex">
-            <div>
-              <img
-                className="w-14 h-14"
-                src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                alt=""
-              />
-            </div>
-            <div className=" mt-5 text-white">
-              {weatherData.weather[0].description}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 grid-rows-2  ">
-            <div className="text-white">
-              Humidity: {weatherData.main.humidity}
-            </div>
-            <div className="text-white">
-              Feels like: {(weatherData.main.temp - 273.15).toFixed(1)} &deg;C
-            </div>
-            <div className="text-white">
-              Wind speed: {weatherData.wind.speed} m/s
-            </div>
-            <div className="text-white">
-              Visibility: {weatherData.visibility} m
-            </div>
-          </div>
         </div>
       </div>
     </div>
